@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route("/user/registered", name: "user_registered", methods: ["GET"]) ]
 class RegistrationController extends AbstractController
 {
     /**
@@ -20,8 +21,7 @@ class RegistrationController extends AbstractController
      * @param EntityManagerInterface $em
      * @return Response
      */
-    #[Route("/user/registered", name: "user_html_registered",methods: ["GET"])]
-    public function html( Request $request, UserPasswordHasherInterface $hasher , EntityManagerInterface $em ):Response
+    public function __invoke( Request $request, UserPasswordHasherInterface $hasher , EntityManagerInterface $em ):Response
     {
 
         $form = $this->createForm(RegistrationFormType::class)
