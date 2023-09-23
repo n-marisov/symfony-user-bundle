@@ -8,3 +8,4 @@ services:
     autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
   Maris\Symfony\User\Controller\LoginController: ~
+  Maris\Symfony\User\Controller\LogoutController: ~

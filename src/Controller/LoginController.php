@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /***
  * Контроллер для авторизации пользователя.
  */
+#[Route(path: '/login', name: 'user_login')]
 class LoginController extends AbstractController
 {
     /***
@@ -19,7 +20,6 @@ class LoginController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    #[Route(path: '/password/login', name: 'user_password_login')]
     public function loginPassword( Request $request ):Response
     {
         $form = $this->createForm( RegistrationFormType::class )
@@ -35,16 +35,5 @@ class LoginController extends AbstractController
         return $this->render("user.login.html.twig",[
 
         ]);
-    }
-
-
-    /***
-     * Выход из системы.
-     * @return void
-     */
-    #[Route(path: '/logout', name: 'user_logout')]
-    public function logout(): void
-    {
-        throw new LogicException();
     }
 }
