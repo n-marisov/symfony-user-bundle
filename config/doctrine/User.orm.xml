@@ -15,7 +15,11 @@
 
         <field name="phone" type="phone_number"/>
 
-        <embedded name="person" column-prefix="_" class="Maris\Symfony\Person\Entity\Person"/>
+        <one-to-one field="person" target-entity="Maris\Symfony\Person\Entity\Person">
+            <join-columns>
+                <join-column name="person_id"/>
+            </join-columns>
+        </one-to-one>
 
         <field name="password"/>
         <field name="roles"/>
