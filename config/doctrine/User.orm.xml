@@ -15,7 +15,7 @@
 
         <field name="phone" type="phone_number"/>
 
-        <embedded name="person" column-prefix="_" class="Maris\Symfony\User\Entity\Person"/>
+        <embedded name="person" column-prefix="_" class="Maris\Symfony\Person\Entity\Person"/>
 
         <field name="password"/>
         <field name="roles"/>
