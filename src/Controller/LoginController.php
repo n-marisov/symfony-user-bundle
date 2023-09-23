@@ -20,7 +20,7 @@ class LoginController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function loginPassword( Request $request ):Response
+    public function __invoke( Request $request ):Response
     {
         $form = $this->createForm( RegistrationFormType::class )
             ->handleRequest( $request );
