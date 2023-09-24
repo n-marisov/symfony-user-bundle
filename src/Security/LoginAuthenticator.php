@@ -26,10 +26,10 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
 
     private PhoneNumberUtil $phoneNumberUtil;
 
-    public function __construct( UrlGeneratorInterface $urlGenerator , PhoneNumberUtil $phoneNumberUtil  )
+    public function __construct( UrlGeneratorInterface $urlGenerator  )
     {
         $this->urlGenerator = $urlGenerator;
-        $this->phoneNumberUtil = $phoneNumberUtil;
+        $this->phoneNumberUtil = PhoneNumberUtil::getInstance();
     }
 
     public function authenticate( Request $request ): Passport
