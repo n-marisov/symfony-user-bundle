@@ -18,5 +18,6 @@ class RegistrationFormType extends AbstractType
             ->add("password",PasswordType::class)
             ->add("submit",SubmitType::class);
         $builder->get("person")->addViewTransformer( new PersonViewTransformer() );
+        $builder->addViewTransformer( new UserViewTransformer() );
     }
 }

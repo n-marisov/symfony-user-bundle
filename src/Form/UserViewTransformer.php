@@ -6,12 +6,13 @@ use Maris\Symfony\Person\Entity\Girl;
 use Maris\Symfony\Person\Entity\Man;
 use Maris\Symfony\Person\Entity\Person;
 use Maris\Symfony\Person\Model\Gender;
+use Maris\Symfony\User\Entity\User;
 use Symfony\Component\Form\DataTransformerInterface;
 
 /***
  * Преобразователь объекта персоны.
  */
-class PersonViewTransformer implements DataTransformerInterface
+class UserViewTransformer implements DataTransformerInterface
 {
 
     /***
@@ -37,24 +38,9 @@ class PersonViewTransformer implements DataTransformerInterface
      * @param array $value
      * @return Person|null
      */
-    public function reverseTransform(mixed $value):?Person
+    public function reverseTransform(mixed $value):?User
     {
-        if(!is_array($value) || !isset($value["surname"]) || !isset($value["firstname"])|| !isset($value["patronymic"]))
-            return null;
-
-        return $this->createPersonModel($value["gender"] ?? null)
-            ->setSurname($value["surname"])
-            ->setFirstname($value["firstname"])
-            ->setPatronymic($value["patronymic"])
-            ->setBirthDate($value["birthDate"]);
-    }
-
-    protected function createPersonModel( $gender ):Person
-    {
-        return match ( $gender ){
-            1 => new Man(),
-            -1 => new Girl(),
-            default => new Person()
-        };
+        dump($value);
+        return null;
     }
 }
