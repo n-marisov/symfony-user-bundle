@@ -4,6 +4,7 @@ namespace Maris\Symfony\User\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Maris\Symfony\Person\Entity\Person;
+use Maris\Symfony\User\Entity\User;
 use Maris\Symfony\User\Form\RegistrationFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,7 +32,11 @@ class RegistrationController extends AbstractController
             ->handleRequest($request);
 
         if( $form->isSubmitted() && $form->isValid() ){
-            dump( $form->getData() );
+            if(!empty($user = $form->getData()) && is_a($user,User::class)){
+                $user->setPassword($hasher->hashPassword($user,$user->getPassword()));
+                $em->persist($user);
+                $em->flush();
+            }
             return $this->redirectToRoute("user_account");
         }
 
