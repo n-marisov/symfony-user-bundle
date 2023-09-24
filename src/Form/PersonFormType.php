@@ -24,7 +24,7 @@ class PersonFormType extends AbstractType
                     "autocomplete"=>"off"
                 ],
             ])
-            ->add('lastname',TextType::class,[
+            ->add('firstname',TextType::class,[
                 "label"=>"Имя",
                 "attr"=>[
                     "class"=>"form-control",
