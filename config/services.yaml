@@ -11,3 +11,5 @@ services:
   Maris\Symfony\User\Controller\LoginController: ~        # Контролер авторизации пользователя.
   Maris\Symfony\User\Controller\AccountController: ~      # Контролер личного кабинета пользователя.
   Maris\Symfony\User\Controller\LogoutController: ~       # Контролер выхода из системы пользователя.
+
+  Maris\Symfony\User\Security\LoginAuthenticator: ~ # Аутенфикатор
