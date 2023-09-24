@@ -1,6 +1,6 @@
 {# Глаывный шаблон страницы #}
 <!doctype html>
-<html lang="{{ app.locale }}" >
+<html lang="{{ app.request.server.get("locale") }}" >
 <head>
     {% block meta %}
         <meta charset="utf-8">
