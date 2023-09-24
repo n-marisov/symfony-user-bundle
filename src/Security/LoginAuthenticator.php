@@ -34,9 +34,10 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
 
     public function authenticate( Request $request ): Passport
     {
-        dump($request->request->getIterator());
+        $array = iterator_to_array( $request->request->getIterator() );
+        dump( $array );
         //$form =
-        $login = $request->request->get('login_form',"");
+        $login = $array['login_form']["phone"];
         /*try {
             /*$number = $this->phoneUtil->parse( $login ,"ru");
             if($this->phoneUtil->isValidNumber($number)){
