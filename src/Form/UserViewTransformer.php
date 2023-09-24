@@ -40,7 +40,8 @@ class UserViewTransformer implements DataTransformerInterface
      */
     public function reverseTransform(mixed $value):?User
     {
-        dump($value);
+        if(is_array($value) && isset($value["phone"]) && isset($value["person"]) && isset($value["password"]))
+            return new User($value["phone"],$value["person"],$value["password"]);
         return null;
     }
 }
