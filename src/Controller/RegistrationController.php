@@ -31,9 +31,8 @@ class RegistrationController extends AbstractController
             ->handleRequest($request);
 
         if( $form->isSubmitted() && $form->isValid() ){
-            # Кнопка нажата и форма валидна
-            $person = new Person();
-            dump($form);
+            dump( $form->getData() );
+            return $this->redirectToRoute("user_account");
         }
 
         return $this->render('user.registered.html.twig',[
