@@ -31,13 +31,13 @@ class User implements UserInterface, PersonAggregateInterface
      * @param string $password
      * @param array|string[] $roles
      */
-    public function __construct( PhoneNumber $phone, Person $person, string $password, array $roles = [] )
+    /*public function __construct( PhoneNumber $phone, Person $person, string $password, array $roles = [] )
     {
         $this->phone = $phone;
         $this->person = $person;
         $this->roles = array_merge( $roles, ["role_user"] );
         $this->password = $password;
-    }
+    }*/
 
 
     /**
@@ -92,6 +92,47 @@ class User implements UserInterface, PersonAggregateInterface
     {
         return $this->password;
     }
+
+    /**
+     * @param PhoneNumber $phone
+     * @return $this
+     */
+    public function setPhone(PhoneNumber $phone): self
+    {
+        $this->phone = $phone;
+        return $this;
+    }
+
+    /**
+     * @param Person $person
+     * @return $this
+     */
+    public function setPerson(Person $person): self
+    {
+        $this->person = $person;
+        return $this;
+    }
+
+    /**
+     * @param array $roles
+     * @return $this
+     */
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+        return $this;
+    }
+
+    /**
+     * @param string $password
+     * @return $this
+     */
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+        return $this;
+    }
+
 
 
 }
