@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /***
  * Контроллер регистрации нового пользователя.
  */
-#[Route("/registered", name: "user_registered", methods: ["GET"]) ]
+#[Route("/registered", name: "user_registered", methods: ["GET","POST"]) ]
 class RegistrationController extends AbstractController
 {
     /**
@@ -33,6 +33,7 @@ class RegistrationController extends AbstractController
         if( $form->isSubmitted() && $form->isValid() ){
             # Кнопка нажата и форма валидна
             $person = new Person();
+            dump($form);
         }
 
         return $this->render('user.registered.html.twig',[
