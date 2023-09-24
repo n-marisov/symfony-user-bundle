@@ -39,7 +39,7 @@ class PersonViewTransformer implements DataTransformerInterface
      */
     public function reverseTransform(mixed $value):?Person
     {
-        dump($value);
+       // dump($value);
         if(!is_array($value) || !isset($value["surname"]) || !isset($value["firstname"])|| !isset($value["patronymic"]))
             return null;
 
