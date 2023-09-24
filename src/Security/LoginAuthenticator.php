@@ -2,7 +2,10 @@
 
 namespace Maris\Symfony\User\Security;
 
+use Doctrine\ORM\EntityManagerInterface;
+use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
+use Maris\Symfony\User\Entity\User;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,35 +29,42 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
 
     private PhoneNumberUtil $phoneNumberUtil;
 
-    public function __construct( UrlGeneratorInterface $urlGenerator  )
+    private EntityManagerInterface $entityManager;
+    public function __construct( UrlGeneratorInterface $urlGenerator  ,EntityManagerInterface $entityManager)
     {
         $this->urlGenerator = $urlGenerator;
+        $this->entityManager = $entityManager;
         $this->phoneNumberUtil = PhoneNumberUtil::getInstance();
     }
 
     public function authenticate( Request $request ): Passport
     {
         $array = iterator_to_array( $request->request->getIterator() );
-        dump( $array );
+        //dump( $array );
         //$form =
-        $login = $array['login_form']["phone"];
-        /*try {
+        $phone = $array['login_form']["phone"];
+        try {
             /*$number = $this->phoneUtil->parse( $login ,"ru");
             if($this->phoneUtil->isValidNumber($number)){
                 $login = $this->phoneUtil->formatNationalNumberWithCarrierCode($number,"ru");
             }*/
-        /*    $login = $this->phoneNumberUtil->parse($login,"ru");
+            $login = $this->phoneNumberUtil->parse($phone,"ru");
         }catch ( \Exception $exception ){
             # Значит вход по email
             dump( $exception );
             throw $exception;
-        }*/
-        //$request->getSession()->set(Security::LAST_USERNAME, $login);
+        }
+        $request->getSession()->set(Security::LAST_USERNAME, $login);
 
-        dump($login);
-
+        //dump($login);
+        $repository = $this->entityManager->getRepository(User::class);
+        $util = $this->phoneNumberUtil;
         return  new Passport(
-            new UserBadge($login),
+            new UserBadge($login, function () use ($login,$repository,$util) {
+                return $repository->findBy([
+                    "phone" => $util->format($login, PhoneNumberFormat::E164)
+                ]);
+            }),
             new PasswordCredentials($request->request->get('password', '')),
             [
                 new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),
