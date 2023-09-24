@@ -43,6 +43,7 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
             $number = $this->phoneNumberUtil->parse($login,"ru");
         }catch ( \Exception $exception ){
             # Значит вход по email
+            dump( $exception );
             throw $exception;
         }
         $request->getSession()->set(Security::LAST_USERNAME, $login);
