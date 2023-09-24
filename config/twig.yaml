@@ -1,0 +1,9 @@
+twig:
+    default_path: '%kernel.project_dir%/templates'
+    form_themes: ['bootstrap_5_layout.html.twig']
+    paths:
+        # Подключаем шаблоны для пакета пользователя.
+        vendor/maris/symfony-user-bundle/templates : ~
+when@test:
+    twig:
+        strict_variables: true
