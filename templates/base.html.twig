@@ -10,7 +10,9 @@
 
 </head>
 <body>
-{{ dump(app.request.server) }}
+<pre>
+    {{ dump(app.request.server) }}
+</pre>
 {% block header %}{% endblock %}
 {% block content %}{% endblock %}
 {% block footer %}{% endblock %}
