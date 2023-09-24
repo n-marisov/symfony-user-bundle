@@ -14,7 +14,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 /***
  * Контроллер для авторизации пользователя.
  */
-#[Route(path: '/login', name: 'user_login')]
+#[Route(path: '/login', name: 'user_login',methods: ["GET","POST"])]
 class LoginController extends AbstractController
 {
     /***

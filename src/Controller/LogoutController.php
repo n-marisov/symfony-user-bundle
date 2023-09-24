@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Контроллер для выхода из системы.
  */
-#[Route(path: '/logout', name: 'user_logout')]
+#[Route(path: '/logout', name: 'user_logout',methods: ["GET","POST"])]
 class LogoutController extends AbstractController
 {
     public function __invoke():never
