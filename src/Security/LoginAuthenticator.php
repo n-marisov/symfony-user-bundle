@@ -43,6 +43,8 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
         //dump( $array );
         //$form =
         $phone = $array['login_form']["phone"];
+        $password = $array['login_form']["password"];
+        $token = $array['login_form']["_token"];
         try {
             /*$number = $this->phoneUtil->parse( $login ,"ru");
             if($this->phoneUtil->isValidNumber($number)){
@@ -65,9 +67,9 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
                     "phone" => $util->format($login, PhoneNumberFormat::E164)
                 ]);
             }),
-            new PasswordCredentials($request->request->get('password', '')),
+            new PasswordCredentials(/*$request->request->get('password', '')*/$password),
             [
-                new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),
+                new CsrfTokenBadge('authenticate',/* $request->request->get('_csrf_token')*/$token),
             ]
         );
     }
