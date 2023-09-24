@@ -22,7 +22,7 @@ class User implements UserInterface, PersonAggregateInterface, PasswordAuthentic
 
     private Person $person;
 
-    private array $roles;
+    private array $roles = ["ROLE_USER"];
 
     private string $password;
 
@@ -120,7 +120,7 @@ class User implements UserInterface, PersonAggregateInterface, PasswordAuthentic
      */
     public function setRoles(array $roles): self
     {
-        $this->roles = $roles;
+        $this->roles = array_unique( array_merge($roles,["ROLE_USER"]) );
         return $this;
     }
 
