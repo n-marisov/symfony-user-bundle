@@ -34,7 +34,7 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
 
     public function authenticate( Request $request ): Passport
     {
-        dump($request);
+        dump($request->request->getIterator());
         //$form =
         $login = $request->request->get('login_form',"");
         /*try {
