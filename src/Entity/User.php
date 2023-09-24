@@ -6,13 +6,14 @@ use libphonenumber\PhoneNumber;
 use Maris\interfaces\Person\Model\PersonAggregateInterface;
 use Maris\interfaces\Person\Model\PersonInterface;
 use Maris\Symfony\Person\Entity\Person;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /***
  * Пользователь.
  * В качестве идентификатора используется номер телефона.
  */
-class User implements UserInterface, PersonAggregateInterface
+class User implements UserInterface, PersonAggregateInterface, PasswordAuthenticatedUserInterface
 {
 
     private ?int $id = null;
