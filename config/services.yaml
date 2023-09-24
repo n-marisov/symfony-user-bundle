@@ -7,5 +7,7 @@ services:
     autowire: true      # Automatically injects dependencies in your services.
     autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
-  Maris\Symfony\User\Controller\LoginController: ~
-  Maris\Symfony\User\Controller\LogoutController: ~
+  Maris\Symfony\User\Controller\RegistrationController: ~ # Контроллер регистрации пользователя.
+  Maris\Symfony\User\Controller\LoginController: ~        # Контролер авторизации пользователя.
+  Maris\Symfony\User\Controller\AccountController: ~      # Контролер личного кабинета пользователя.
+  Maris\Symfony\User\Controller\LogoutController: ~       # Контролер выхода из системы пользователя.
