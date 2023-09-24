@@ -34,7 +34,7 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
 
     public function authenticate( Request $request ): Passport
     {
-        $login = $request->request->get('login', '');
+        $login = $request->request->get('phone', '');
         try {
             /*$number = $this->phoneUtil->parse( $login ,"ru");
             if($this->phoneUtil->isValidNumber($number)){
@@ -43,8 +43,12 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
             $number = $this->phoneNumberUtil->parse($login,"ru");
         }catch ( \Exception $exception ){
             # Значит вход по email
+            throw $exception;
         }
         $request->getSession()->set(Security::LAST_USERNAME, $login);
+
+        dump($number);
+
         return  new Passport(
             new UserBadge($login),
             new PasswordCredentials($request->request->get('password', '')),
