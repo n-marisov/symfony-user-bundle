@@ -1,4 +1,4 @@
-{# Глаывный шаблон страницы #}
+{# Главный шаблон страницы #}
 <!doctype html>
 <html lang="ru" >
 <head>
@@ -10,9 +10,6 @@
 
 </head>
 <body>
-<pre>
-    {{ dump(app.request.server) }}
-</pre>
 {% block header %}{% endblock %}
 {% block content %}{% endblock %}
 {% block footer %}{% endblock %}

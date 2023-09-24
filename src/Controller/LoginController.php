@@ -3,6 +3,7 @@
 namespace Maris\Symfony\User\Controller;
 
 use LogicException;
+use Maris\Symfony\User\Form\LoginFormType;
 use Maris\Symfony\User\Form\RegistrationFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,7 +23,7 @@ class LoginController extends AbstractController
      */
     public function __invoke( Request $request ):Response
     {
-        $form = $this->createForm( RegistrationFormType::class )
+        $form = $this->createForm( LoginFormType::class )
             ->handleRequest( $request );
 
         // Форма отправлена и валидна.
@@ -32,11 +33,8 @@ class LoginController extends AbstractController
         }*/
 
         // Форма не отправлена.
-        return $this->render("login.html.twig",[
-
+        return $this->render("user.login.html.twig",[
+            "loginForm" => $form->createView()
         ]);
-        /*return $this->render("@MarisUserBundle/login/login.html.twig",[
-
-        ]);*/
     }
 }

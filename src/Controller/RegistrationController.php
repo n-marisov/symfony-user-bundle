@@ -32,7 +32,7 @@ class RegistrationController extends AbstractController
             $person = new Person();
         }
 
-        return $this->render('registered.html.twig',[
+        return $this->render('user.registered.html.twig',[
             "formType" => $form->createView()
         ]);
     }
