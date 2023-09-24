@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% set lang_locale = 'ru' %}
+
+{% block meta %}
+    {{ parent() }}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{{ description }}">
+    <meta name="theme-color" content="#7952b3">
+{% endblock %}
