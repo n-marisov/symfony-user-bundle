@@ -32,10 +32,10 @@ class LoginController extends AbstractController
         }*/
 
         // Форма не отправлена.
-        return $this->render("/login/index.html.twig",[
+        return $this->render("login.html.twig",[
 
         ]);
-        /*return $this->render("@MarisUserBundle/login/index.html.twig",[
+        /*return $this->render("@MarisUserBundle/login/login.html.twig",[
 
         ]);*/
     }
