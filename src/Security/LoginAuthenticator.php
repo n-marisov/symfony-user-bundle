@@ -36,7 +36,7 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
     {
         dump($request);
         //$form =
-        $login = $request->request->get('login_form[phone]',"");
+        $login = $request->request->get('login_form',"");
         /*try {
             /*$number = $this->phoneUtil->parse( $login ,"ru");
             if($this->phoneUtil->isValidNumber($number)){
