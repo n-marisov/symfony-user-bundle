@@ -18,6 +18,5 @@ class MarisUserExtension extends Extension
         $path = realpath( dirname(__DIR__).'/../config' );
         $loader = new YamlFileLoader( $container, new FileLocator( $path ) );
         $loader->load('services.yaml');
-       // $loader->load('twig.yaml');
     }
 }
