@@ -55,7 +55,7 @@ class PersonFormType extends AbstractType
                 ],
                 "required"=>true,
             ])
-            ->add('birthdate',DateType::class,[
+            ->add('birthDate',DateType::class,[
                 "label"=>"Дата рождения",
                 "attr"=>[
                     "class"=>"form-control",
