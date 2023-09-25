@@ -3,6 +3,7 @@
 namespace Maris\Symfony\User\Security;
 
 use Doctrine\ORM\EntityManagerInterface;
+use libphonenumber\PhoneNumber;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
 use Maris\Symfony\User\Entity\User;
@@ -50,13 +51,14 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
     public function authenticate( Request $request ): Passport
     {
         $form = $this->formFactory->create( LoginFormType::class )->handleRequest($request);
+        /**@var PhoneNumber $login **/
         $login = $form->get("phone")->getData();
         $password = $form->get("password")->getData();
         //$token =  $form->get("_token")->getData();
         $request->getSession()->set(Security::LAST_USERNAME, $login );
 
         return  new Passport(
-            new UserBadge( $login , new UserLoader( $this->userRepository ) ),
+            new UserBadge( $login->getNationalNumber() , new UserLoader( $this->userRepository ) ),
             new PasswordCredentials( $password ),
             [
                 //new CsrfTokenBadge('authenticate',$token),
