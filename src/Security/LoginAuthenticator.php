@@ -52,14 +52,14 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
         $form = $this->formFactory->create( LoginFormType::class )->handleRequest($request);
         $login = $form->get("phone")->getData();
         $password = $form->get("password")->getData();
-        $token =  $form->get("_token")->getData();
+        //$token =  $form->get("_token")->getData();
         $request->getSession()->set(Security::LAST_USERNAME, $login );
 
         return  new Passport(
             new UserBadge( $login , new UserLoader( $this->userRepository ) ),
             new PasswordCredentials( $password ),
             [
-                new CsrfTokenBadge('authenticate',$token),
+                //new CsrfTokenBadge('authenticate',$token),
             ]
         );
     }
