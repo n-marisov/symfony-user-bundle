@@ -25,6 +25,10 @@ class LoginController extends AbstractController
      */
     public function __invoke( AuthenticationUtils $utils, Request $request ):Response
     {
+
+        if(!empty($this->getUser()))
+            return $this->redirectToRoute("user_account");
+
         $form = $this->createForm( LoginFormType::class )
             ->handleRequest( $request );
 
