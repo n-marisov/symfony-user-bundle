@@ -49,40 +49,17 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
 
     public function authenticate( Request $request ): Passport
     {
-        $array = iterator_to_array( $request->request->getIterator() );
-        //dump( $array );
-        //$form =
+        $form = $this->formFactory->create( LoginFormType::class )->handleRequest($request);
+        $login = $form->get("phone")->getData();
+        $password = $form->get("password")->getData();
+        $token =  $form->get("_token")->getData();
+        $request->getSession()->set(Security::LAST_USERNAME, $login );
 
-        dump($this->formFactory->create( LoginFormType::class )->handleRequest($request));
-        $phone = $array['login_form']["phone"];
-        $password = $array['login_form']["password"];
-        $token = $array['login_form']["_token"];
-        try {
-            /*$number = $this->phoneUtil->parse( $login ,"ru");
-            if($this->phoneUtil->isValidNumber($number)){
-                $login = $this->phoneUtil->formatNationalNumberWithCarrierCode($number,"ru");
-            }*/
-            $login = $this->phoneNumberUtil->parse($phone,"ru");
-        }catch ( \Exception $exception ){
-            # Значит вход по email
-            dump( $exception );
-            throw $exception;
-        }
-        $request->getSession()->set(Security::LAST_USERNAME, $login);
-
-        //dump($login);
-        $repository = $this->entityManager->getRepository(User::class);
-        $util = $this->phoneNumberUtil;
         return  new Passport(
             new UserBadge( $login , new UserLoader( $this->userRepository ) ),
-            /*new UserBadge($login, function () use ($login,$repository,$util) {
-                return $repository->findBy([
-                    "phone" => $util->format($login, PhoneNumberFormat::E164)
-                ]);
-            }),*/
-            new PasswordCredentials(/*$request->request->get('password', '')*/$password),
+            new PasswordCredentials( $password ),
             [
-                new CsrfTokenBadge('authenticate',/* $request->request->get('_csrf_token')*/$token),
+                new CsrfTokenBadge('authenticate',$token),
             ]
         );
     }
