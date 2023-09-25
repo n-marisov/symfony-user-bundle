@@ -13,3 +13,7 @@ services:
   Maris\Symfony\User\Controller\LogoutController: ~       # Контролер выхода из системы пользователя.
 
   Maris\Symfony\User\Security\LoginAuthenticator: ~ # Аутенфикатор
+
+  Maris\Symfony\User\Repository\UserRepository:
+    arguments:
+      $registry: '@doctrine'
