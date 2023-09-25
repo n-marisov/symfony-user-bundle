@@ -6,6 +6,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
 use Maris\Symfony\User\Entity\User;
+use Maris\Symfony\User\Form\LoginFormType;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,10 +32,13 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
     private PhoneNumberUtil $phoneNumberUtil;
 
     private EntityManagerInterface $entityManager;
-    public function __construct( UrlGeneratorInterface $urlGenerator  ,EntityManagerInterface $entityManager)
+
+    private FormFactoryInterface $formFactory;
+    public function __construct( UrlGeneratorInterface $urlGenerator  ,EntityManagerInterface $entityManager, FormFactoryInterface $formFactory )
     {
         $this->urlGenerator = $urlGenerator;
         $this->entityManager = $entityManager;
+        $this->formFactory = $formFactory;
         $this->phoneNumberUtil = PhoneNumberUtil::getInstance();
     }
 
@@ -42,6 +47,8 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
         $array = iterator_to_array( $request->request->getIterator() );
         //dump( $array );
         //$form =
+
+        dump($this->formFactory->create( LoginFormType::class )->handleRequest($request));
         $phone = $array['login_form']["phone"];
         $password = $array['login_form']["password"];
         $token = $array['login_form']["_token"];
