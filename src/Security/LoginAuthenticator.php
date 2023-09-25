@@ -7,6 +7,8 @@ use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
 use Maris\Symfony\User\Entity\User;
 use Maris\Symfony\User\Form\LoginFormType;
+use Maris\Symfony\User\Form\UserLoader;
+use Maris\Symfony\User\Repository\UserRepository;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,11 +36,14 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
     private EntityManagerInterface $entityManager;
 
     private FormFactoryInterface $formFactory;
-    public function __construct( UrlGeneratorInterface $urlGenerator  ,EntityManagerInterface $entityManager, FormFactoryInterface $formFactory )
+
+    private UserRepository $userRepository;
+    public function __construct( UrlGeneratorInterface $urlGenerator, UserRepository $userRepository  ,EntityManagerInterface $entityManager, FormFactoryInterface $formFactory )
     {
         $this->urlGenerator = $urlGenerator;
         $this->entityManager = $entityManager;
         $this->formFactory = $formFactory;
+        $this->userRepository = $userRepository;
         $this->phoneNumberUtil = PhoneNumberUtil::getInstance();
     }
 
@@ -69,11 +74,12 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
         $repository = $this->entityManager->getRepository(User::class);
         $util = $this->phoneNumberUtil;
         return  new Passport(
-            new UserBadge($login, function () use ($login,$repository,$util) {
+            new UserBadge( $login , new UserLoader( $this->userRepository ) ),
+            /*new UserBadge($login, function () use ($login,$repository,$util) {
                 return $repository->findBy([
                     "phone" => $util->format($login, PhoneNumberFormat::E164)
                 ]);
-            }),
+            }),*/
             new PasswordCredentials(/*$request->request->get('password', '')*/$password),
             [
                 new CsrfTokenBadge('authenticate',/* $request->request->get('_csrf_token')*/$token),
