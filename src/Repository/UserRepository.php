@@ -8,6 +8,8 @@ use libphonenumber\PhoneNumber;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
 use Maris\Symfony\User\Entity\User;
+use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @extends ServiceEntityRepository<User>
@@ -17,7 +19,7 @@ use Maris\Symfony\User\Entity\User;
  * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserRepository extends ServiceEntityRepository
+class UserRepository extends ServiceEntityRepository implements UserLoaderInterface
 {
     private PhoneNumberUtil $phoneNumberUtil;
     public function __construct(ManagerRegistry $registry)
@@ -45,13 +47,35 @@ class UserRepository extends ServiceEntityRepository
         if(is_string($phone))
             $phone = $this->phoneNumberUtil->parse($phone,"ru");
 
+        return $this->loadUserByIdentifier(
+            $this->phoneNumberUtil->format(
+                $phone, PhoneNumberFormat::E164
+            )
+        );
+
+        /*
         return $this->createQueryBuilder('u')
             ->andWhere('u.phone = :phone')
             ->setParameter('phone', $this->phoneNumberUtil->format($phone,PhoneNumberFormat::E164) )
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getOneOrNullResult();*/
     }
 
+    public function loadUserByIdentifier(string $identifier): ?User
+    {
+        try {
+            $identifier = $this->phoneNumberUtil->parse($identifier,"ru");
+            $identifier = $this->phoneNumberUtil->format($identifier, PhoneNumberFormat::E164);
+
+            return $this->createQueryBuilder('u')
+                ->andWhere('u.phone = :phone')
+                ->setParameter('phone', $identifier )
+                ->getQuery()
+                ->getOneOrNullResult();
+        }catch ( \Exception $exception ){
+            return null;
+        }
+    }
 
     //    /**
 //     * @return TestEntity[] Returns an array of TestEntity objects
@@ -77,4 +101,5 @@ class UserRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
 }
