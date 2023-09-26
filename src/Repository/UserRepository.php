@@ -9,6 +9,9 @@ use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
 use Maris\Symfony\User\Entity\User;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
+use Symfony\Component\PasswordHasher\PasswordHasherInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -19,7 +22,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserRepository extends ServiceEntityRepository implements UserLoaderInterface
+class UserRepository extends ServiceEntityRepository implements UserLoaderInterface, PasswordUpgraderInterface
 {
     private PhoneNumberUtil $phoneNumberUtil;
     public function __construct(ManagerRegistry $registry)
@@ -77,6 +80,18 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         }
     }
 
+    public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
+    {
+        // установить новый хэшированный пароль в объекте User
+        $user->setPassword($newHashedPassword);
+
+        $this->getEntityManager()->persist($user);
+
+        // выполнить запросы в базе данных
+        $this->getEntityManager()->flush();
+    }
+
+
     //    /**
 //     * @return TestEntity[] Returns an array of TestEntity objects
 //     */
@@ -101,5 +116,4 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
 //            ->getOneOrNullResult()
 //        ;
 //    }
-
 }
