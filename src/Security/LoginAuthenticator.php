@@ -60,6 +60,10 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
         //$token =  $form->get("_token")->getData();
         $request->getSession()->set(Security::LAST_USERNAME, $login->getNationalNumber() );
 
+
+        dump( $form->getNormData() );
+        dump( $form->getExtraData() );
+
         return  new Passport(
             new UserBadge( $login->getNationalNumber() , $this->userRepository->loadUserByIdentifier(...) ),
             new PasswordCredentials( $password ),
@@ -67,15 +71,6 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
                 // new CsrfTokenBadge('authenticate', $request->get("_token")->getData() ),
             ]
         );
-
-/*
-        return  new Passport(
-            new UserBadge( $login->getNationalNumber() , new UserLoader( $this->userRepository ) ),
-            new PasswordCredentials( $password ),
-            [
-               // new CsrfTokenBadge('authenticate', $request->get("_token")->getData() ),
-            ]
-        );*/
     }
 
 
@@ -90,7 +85,7 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
         //return new RedirectResponse( $this->getTargetPath($request->getSession(), $firewallName) );
         */
 
-        dump($request->headers->get("Referer","/"));
+        //dump($request->headers->get("Referer","/"));
         //$request->headers->get("Referer");
 
         return new RedirectResponse("/");
