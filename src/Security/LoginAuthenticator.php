@@ -60,16 +60,22 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
         //$token =  $form->get("_token")->getData();
         $request->getSession()->set(Security::LAST_USERNAME, $login->getNationalNumber() );
 
+        return  new Passport(
+            new UserBadge( $login->getNationalNumber() , $this->userRepository->loadUserByIdentifier(...) ),
+            new PasswordCredentials( $password ),
+            [
+                // new CsrfTokenBadge('authenticate', $request->get("_token")->getData() ),
+            ]
+        );
 
-
-
+/*
         return  new Passport(
             new UserBadge( $login->getNationalNumber() , new UserLoader( $this->userRepository ) ),
             new PasswordCredentials( $password ),
             [
                // new CsrfTokenBadge('authenticate', $request->get("_token")->getData() ),
             ]
-        );
+        );*/
     }
 
 
