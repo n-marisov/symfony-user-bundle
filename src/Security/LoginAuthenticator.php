@@ -41,14 +41,13 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
 
     private UserRepository $userRepository;
 
-    private  AuthenticationSuccessHandlerInterface $successHandler;
-    public function __construct( AuthenticationSuccessHandlerInterface $successHandler, UrlGeneratorInterface $urlGenerator, UserRepository $userRepository  ,EntityManagerInterface $entityManager, FormFactoryInterface $formFactory )
+    public function __construct( UrlGeneratorInterface $urlGenerator, UserRepository $userRepository  ,EntityManagerInterface $entityManager, FormFactoryInterface $formFactory )
     {
         $this->urlGenerator = $urlGenerator;
         $this->entityManager = $entityManager;
         $this->formFactory = $formFactory;
         $this->userRepository = $userRepository;
-        $this->successHandler = $successHandler;
+
         $this->phoneNumberUtil = PhoneNumberUtil::getInstance();
     }
 
