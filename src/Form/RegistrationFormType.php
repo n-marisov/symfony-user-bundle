@@ -15,10 +15,19 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options):void
     {
         $builder
-            ->add('phone',PhoneNumberType::class,['default_region'=>"RU"])
-            ->add("person",PersonFormType::class)
-            ->add("password",PasswordType::class)
-            ->add("submit",SubmitType::class);
+            ->add('phone',PhoneNumberType::class,[
+                'default_region'=>"RU",
+                'label' => 'user.registration.phone'
+            ])
+            ->add("person",PersonFormType::class,[
+                'label' => 'user.registration.person'
+            ])
+            ->add("password",PasswordType::class,[
+                'label' => 'user.registration.password'
+            ])
+            ->add("submit",SubmitType::class,[
+                'label' => 'user.registration.submit'
+            ]);
         $builder->get("person")->addViewTransformer( new PersonViewTransformer() );
         //$builder->addViewTransformer( new UserViewTransformer() );
     }

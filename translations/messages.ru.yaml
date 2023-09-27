@@ -1,9 +1,10 @@
-#user.phone: 'Номер телефона'
-#user.password: 'Пароль'
-#user.login.submit: 'Войти'
-
 user:
-  phone: 'Номер телефона'
-  password: 'Пароль'
   login:
+    phone: 'Номер телефона'
+    password: 'Пароль'
     submit: 'Войти'
+  registration:
+    phone: 'Номер мобильного телефона'
+    person: 'Персона'
+    password: 'Пароль'
+    submit: 'Зарегистрироваться'

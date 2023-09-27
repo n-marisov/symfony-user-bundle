@@ -19,10 +19,10 @@ class LoginFormType extends AbstractType
         $builder
             ->add("phone",PhoneNumberType::class,[
                 "default_region"=>"RU",
-                "label" => "user.phone"
+                "label" => "user.login.phone"
             ])
             ->add("password",PasswordType::class,[
-                "label" => "user.password"
+                "label" => "user.login.password"
             ])
             ->add("submit",SubmitType::class,[
                 "label" => 'user.login.submit'
