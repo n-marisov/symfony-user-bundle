@@ -18,7 +18,7 @@ class LoginFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options):void
     {
         $builder
-            ->add("username",PhoneNumberType::class,[
+            ->add("phone",PhoneNumberType::class,[
                 "default_region"=>"RU",
                 "label" => "user.login.phone"
             ])
