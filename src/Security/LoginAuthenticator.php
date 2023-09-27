@@ -90,7 +90,7 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
         //return new RedirectResponse( $this->getTargetPath($request->getSession(), $firewallName) );
         */
 
-        dump($request->getSession());
+        dump($request->headers->get("Referer","/"));
         //$request->headers->get("Referer");
 
         return new RedirectResponse("/");
