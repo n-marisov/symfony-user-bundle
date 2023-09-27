@@ -2,6 +2,7 @@
 
 namespace Maris\Symfony\User\Form;
 
+use Maris\Symfony\Person\Form\PersonViewTransformer;
 use Maris\Symfony\User\Entity\User;
 use Misd\PhoneNumberBundle\Form\Type\PhoneNumberType;
 use Symfony\Component\Form\AbstractType;
