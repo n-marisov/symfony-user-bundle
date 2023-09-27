@@ -25,7 +25,7 @@ class LoginController extends AbstractController
      */
     public function __invoke( AuthenticationUtils $utils, Request $request ):Response
     {
-
+        # Перенаправляем на страницу аккаунта если пользователь авторизован.
         if(!empty($this->getUser()))
             return $this->redirectToRoute("user_account");
 

@@ -5,6 +5,6 @@ user:
     submit: 'Войти'
   registration:
     phone: 'Номер мобильного телефона'
-    person: 'Персона'
+    person: 'Персональные данные'
     password: 'Пароль'
     submit: 'Зарегистрироваться'

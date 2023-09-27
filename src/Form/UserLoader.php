@@ -15,7 +15,6 @@ class UserLoader
 
     public function __invoke( string $login ):?User
     {
-        //dump($login);
         return $this->repository->findByPhone( $login );
     }
 
