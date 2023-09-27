@@ -66,11 +66,11 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
         );
 
         # Если опция проверки токена включена в форме.
-        if($form->getConfig()->getOption("csrf_protection"))
+        /*if($form->getConfig()->getOption("csrf_protection"))
             $passport->addBadge(new CsrfTokenBadge(
                 $form->getConfig()->getOption("csrf_field_name"),
                 $request->request->all()[$form->getName()]["_token"]
-            ));
+            ));*/
 
         return $passport;
         /*return  new Passport(
