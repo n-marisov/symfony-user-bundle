@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Maris\Symfony\Person\Form\PersonFormType;
 
 class RegistrationFormType extends AbstractType
 {
@@ -19,7 +20,7 @@ class RegistrationFormType extends AbstractType
                 'default_region'=>"RU",
                 'label' => 'user.registration.phone'
             ])
-            ->add("person",PersonFormType::class,[
+            ->add("person", PersonFormType::class,[
                 'label' => 'user.registration.person'
             ])
             ->add("password",PasswordType::class,[

@@ -1301,16 +1301,16 @@
         },
         {
             "name": "maris/symfony-person-bundle",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/n-marisov/symfony-person-bundle.git",
-                "reference": "197da77376695178a2272b4e2f83eefbc820063d"
+                "reference": "04edbd82b961e0b85927a5802450fe4317a77962"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/n-marisov/symfony-person-bundle/zipball/197da77376695178a2272b4e2f83eefbc820063d",
-                "reference": "197da77376695178a2272b4e2f83eefbc820063d",
+                "url": "https://api.github.com/repos/n-marisov/symfony-person-bundle/zipball/04edbd82b961e0b85927a5802450fe4317a77962",
+                "reference": "04edbd82b961e0b85927a5802450fe4317a77962",
                 "shasum": ""
             },
             "require": {
@@ -1344,9 +1344,9 @@
             "description": "Пакет для добавления персоны человека.",
             "support": {
                 "issues": "https://github.com/n-marisov/symfony-person-bundle/issues",
-                "source": "https://github.com/n-marisov/symfony-person-bundle/tree/v1.0.1"
+                "source": "https://github.com/n-marisov/symfony-person-bundle/tree/v1.0.2"
             },
-            "time": "2023-09-23T06:56:15+00:00"
+            "time": "2023-09-27T05:41:50+00:00"
         },
         {
             "name": "odolbeau/phone-number-bundle",
