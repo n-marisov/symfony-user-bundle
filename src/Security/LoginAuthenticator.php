@@ -58,8 +58,6 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
         $request->getSession()->set(Security::LAST_USERNAME, $login->getNationalNumber() );
 
 
-        dump( $request->get("form_login") );
-
         return  new Passport(
             new UserBadge( $login->getNationalNumber() , new UserLoader( $this->userRepository ) ),
             new PasswordCredentials( $password ),
