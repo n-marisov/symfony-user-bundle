@@ -27,21 +27,6 @@ class User implements UserInterface, PersonAggregateInterface, PasswordAuthentic
     private string $password;
 
     /**
-     * @param PhoneNumber $phone
-     * @param Person $person
-     * @param string $password
-     * @param array|string[] $roles
-     */
-    /*public function __construct( PhoneNumber $phone, Person $person, string $password, array $roles = [] )
-    {
-        $this->phone = $phone;
-        $this->person = $person;
-        $this->roles = array_merge( $roles, ["role_user"] );
-        $this->password = $password;
-    }*/
-
-
-    /**
      * @inheritDoc
      */
     public function getRoles(): array

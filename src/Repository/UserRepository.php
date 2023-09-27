@@ -55,13 +55,6 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
                 $phone, PhoneNumberFormat::E164
             )
         );
-
-        /*
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.phone = :phone')
-            ->setParameter('phone', $this->phoneNumberUtil->format($phone,PhoneNumberFormat::E164) )
-            ->getQuery()
-            ->getOneOrNullResult();*/
     }
 
     public function loadUserByIdentifier(string $identifier): ?User
@@ -83,12 +76,8 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
     {
         // установить новый хэшированный пароль в объекте User
-        $user->setPassword($newHashedPassword);
-
-        $this->getEntityManager()->persist($user);
-
-        // выполнить запросы в базе данных
-        $this->getEntityManager()->flush();
+        if( is_a($user,User::class) )
+            $this->save( $user->setPassword($newHashedPassword),true );
     }
 
 
