@@ -61,7 +61,7 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
             new UserBadge( $login->getNationalNumber() , new UserLoader( $this->userRepository ) ),
             new PasswordCredentials( $password ),
             [
-                new CsrfTokenBadge('authenticate', $form->get("_csrf_token")->getData() ),
+                new CsrfTokenBadge('authenticate', $form->get("_token")->getData() ),
             ]
         );
     }
