@@ -21,7 +21,11 @@ class LoginFormType extends AbstractType
                 "default_region"=>"RU",
                 "label" => "user.phone"
             ])
-            ->add("password",PasswordType::class)
-            ->add("submit",SubmitType::class);
+            ->add("password",PasswordType::class,[
+                "label" => "user.password"
+            ])
+            ->add("submit",SubmitType::class,[
+                "label" => 'user.login.submit'
+            ]);
     }
 }

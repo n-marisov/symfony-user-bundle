@@ -1,2 +1,9 @@
-user.phone: 'Номер телефона'
-user.password: 'Пароль'
+#user.phone: 'Номер телефона'
+#user.password: 'Пароль'
+#user.login.submit: 'Войти'
+
+user:
+  phone: 'Номер телефона'
+  password: 'Пароль'
+  login:
+    submit: 'Войти'
