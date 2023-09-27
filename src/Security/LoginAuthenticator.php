@@ -66,7 +66,21 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
         #dump( $form->getConfig()->getOption() );
         dump( $request->request->all()[$form->getName()]["_token"] );
 
-        return  new Passport(
+
+        $passport = new Passport(
+            new UserBadge($login->getNationalNumber(), $this->userRepository->loadUserByIdentifier(...)),
+            new PasswordCredentials( $password )
+        );
+
+        # Если опция проверки токена включена в форме.
+        if($form->getConfig()->getOption("csrf_protection"))
+            $passport->addBadge(new CsrfTokenBadge(
+                $form->getConfig()->getOption("csrf_field_name"),
+                $request->request->all()[$form->getName()]["_token"]
+            ));
+
+        return $passport;
+        /*return  new Passport(
             new UserBadge( $login->getNationalNumber() , $this->userRepository->loadUserByIdentifier(...) ),
             new PasswordCredentials( $password ),
             [
@@ -75,7 +89,7 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
                      $request->request->all()[$form->getName()]["_token"]
                  ),
             ]
-        );
+        );*/
     }
 
 
