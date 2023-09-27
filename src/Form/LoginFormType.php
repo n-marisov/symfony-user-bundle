@@ -33,8 +33,8 @@ class LoginFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            "csrf_token_id" => "authenticate",
-            "csrf_protection" => true
+           // "csrf_token_id" => "authenticate",
+            //"csrf_protection" => true
         ]);
     }
 
