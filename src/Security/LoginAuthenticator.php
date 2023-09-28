@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
@@ -57,6 +58,10 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
 
         # Возврощает false если токена нет
         #dump( $form->isValid() );
+        # Проверка валидности формы
+        if(!$form->isValid())
+            throw new AuthenticationException();
+
 
         $passport = new Passport(
             new UserBadge($login->getNationalNumber(), $this->userRepository->loadUserByIdentifier(...)),
@@ -64,8 +69,8 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
         );
 
         # Если опция проверки токена включена в форме.
-        if($form->getConfig()->getOption("csrf_protection"))
-            $passport->addBadge( new CsrfFormBadge($form) );
+        #if($form->getConfig()->getOption("csrf_protection"))
+        #    $passport->addBadge( new CsrfFormBadge($form) );
         /*if($form->getConfig()->getOption("csrf_protection"))
             $passport->addBadge(new CsrfTokenBadge(
                 $form->getConfig()->getOption("csrf_field_name"),

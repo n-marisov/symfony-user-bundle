@@ -10,6 +10,7 @@ use libphonenumber\PhoneNumberUtil;
 use Maris\Symfony\User\Entity\User;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Symfony\Component\PasswordHasher\PasswordHasherInterface;
+use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -57,7 +58,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         );
     }
 
-    public function loadUserByIdentifier(string $identifier): ?User
+    public function loadUserByIdentifier(string $identifier): User
     {
         try {
             $identifier = $this->phoneNumberUtil->parse($identifier,"ru");
@@ -69,7 +70,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
                 ->getQuery()
                 ->getOneOrNullResult();
         }catch ( \Exception $exception ){
-            return null;
+            throw new UserNotFoundException();
         }
     }
 
