@@ -13,7 +13,7 @@
             </options>
         </id>
 
-        <field name="phone" type="phone_number"/>
+        <field name="phone" type="phone_number" unique="true" />
 
         <one-to-one field="person" target-entity="Maris\Symfony\Person\Entity\Person">
             <join-columns>

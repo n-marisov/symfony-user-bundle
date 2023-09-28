@@ -32,15 +32,22 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         $this->phoneNumberUtil = PhoneNumberUtil::getInstance();
     }
 
-    public function save( User $user, bool $flush = false ):void
+    public function save( UserInterface $user, bool $flush = false ):void
     {
+        if(!is_a($user,User::class))
+            return;
+
         $this->getEntityManager()->persist( $user );
+
         if($flush)
             $this->getEntityManager()->flush();
     }
 
-    public function remove( User $user, bool $flush = false ):void
+    public function remove( UserInterface $user, bool $flush = false ):void
     {
+        if(!is_a($user,User::class))
+            return;
+
         $this->getEntityManager()->remove( $user );
         if($flush)
             $this->getEntityManager()->flush();
@@ -60,7 +67,10 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
 
     public function loadUserByIdentifier(string $identifier): User
     {
-        try {
+
+        if(!$this->phoneNumberUtil->isPossibleNumber($identifier,"ru"))
+            throw new UserNotFoundException("Ошибка в номере телефона");
+       // try {
             $identifier = $this->phoneNumberUtil->parse($identifier,"ru");
             $identifier = $this->phoneNumberUtil->format($identifier, PhoneNumberFormat::E164);
 
@@ -69,9 +79,9 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
                 ->setParameter('phone', $identifier )
                 ->getQuery()
                 ->getOneOrNullResult();
-        }catch ( \Exception $exception ){
+      /*  }catch ( \Exception $exception ){
             throw new UserNotFoundException();
-        }
+        }*/
     }
 
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
