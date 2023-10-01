@@ -39,6 +39,6 @@ class DeleteUserController extends AbstractController
         #$tokenStorage->setToken(Security::LAST_USERNAME,null);
         //$session->invalidate();
 
-        return $security->logout();
+        return $security->logout(false );
     }
 }
