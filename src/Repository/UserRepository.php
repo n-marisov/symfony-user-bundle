@@ -82,14 +82,27 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
      * @param string $identifier
      * @return User
      * @throws NonUniqueResultException
+     * @throws UserNotFoundException
      */
     public function loadUserByIdentifier(string $identifier): User
     {
 
         try {
-            $phone = $this->phoneNumberUtil->parse($identifier,$this->translator->getLocale());
+            $phone = $this->phoneNumberUtil->parse( $identifier );
+            if( empty($phone) || !$this->phoneNumberUtil->isValidNumber($phone) )
+                $this->phoneNumberUtil->parse( $identifier,$this->translator->getLocale() );
         }catch ( NumberParseException $exception ){
-            throw new UserNotFoundException($this->translator->trans('user.login.exception.parse_number_phone'));
+            $message = $this->translator->trans('user.login.exception.parse_number_phone');
+            /*$message .= match ( $exception->getErrorType() ){
+                NumberParseException::NOT_A_NUMBER => 'The phone number supplied was null',
+                NumberParseException::TOO_LONG => 'The string supplied was too long to parse.',
+                NumberParseException::NOT_A_NUMBER=> 'The string supplied did not seem to be a phone number.',
+                NumberParseException::INVALID_COUNTRY_CODE => 'Missing or invalid default region.',
+                NumberParseException::INVALID_COUNTRY_CODE => 'Could not interpret numbers after plus-sign.',
+                default => ''
+            };*/
+
+            throw new UserNotFoundException( $message );
         }
 
         $user = $this->createQueryBuilder('u')
@@ -98,24 +111,10 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
             ->getQuery()
             ->getOneOrNullResult();
 
-        if(isset($user))
+        if(!empty($user))
             return $user;
 
         throw new UserNotFoundException($this->translator->trans('user.login.exception.not_registered'));
-
-        /*try {
-            $identifier = $this->phoneNumberUtil->parse($identifier,$this->translator->getLocale());
-            $identifier = $this->phoneNumberUtil->format($identifier, PhoneNumberFormat::E164);
-
-            return $this->createQueryBuilder('u')
-                ->andWhere('u.phone = :phone')
-                ->setParameter('phone', $identifier )
-                ->getQuery()
-                ->getOneOrNullResult() ??
-                throw new UserNotFoundException("Пользователя с таким номер не существует");
-        }catch ( \Exception $exception ){
-            throw new UserNotFoundException("Ошибка в номере телефона");
-        }*/
     }
 
     /***
