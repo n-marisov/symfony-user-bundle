@@ -9,7 +9,7 @@ use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
 use Maris\Symfony\User\Entity\User;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
-use Symfony\Component\PasswordHasher\PasswordHasherInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
@@ -27,10 +27,13 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class UserRepository extends ServiceEntityRepository implements UserLoaderInterface, PasswordUpgraderInterface
 {
     private PhoneNumberUtil $phoneNumberUtil;
-    public function __construct(ManagerRegistry $registry)
+
+    private ?string $defaultRegion;
+    public function __construct( ManagerRegistry $registry, Request $request )
     {
         parent::__construct( $registry, User::class );
         $this->phoneNumberUtil = PhoneNumberUtil::getInstance();
+        $this->defaultRegion = $request->getDefaultLocale();
     }
 
     public function save( UserInterface $user, bool $flush = false ):void
@@ -54,17 +57,33 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
             $this->getEntityManager()->flush();
     }
 
+    /***
+     * Получает пользователя по объекту номера телефона
+     * @param PhoneNumber $phone
+     * @return User|null
+     */
     public function findByPhone( PhoneNumber $phone ):?User
     {
-        return $this->loadUserByIdentifier(
-            $this->phoneNumberUtil->format(
-                $phone, PhoneNumberFormat::E164
-            )
-        );
+        try {
+            return $this->loadUserByIdentifier(
+                $this->phoneNumberUtil->format(
+                    $phone, PhoneNumberFormat::E164
+                )
+            );
+        }catch (\Exception $exception){
+            return null;
+        }
     }
 
+    /***
+     * Получает пользователя по номеру телефона.
+     * @param string $identifier
+     * @return User
+     */
     public function loadUserByIdentifier(string $identifier): User
     {
+        dump($this->defaultRegion);
+
         try {
             $identifier = $this->phoneNumberUtil->parse($identifier,"ru");
             $identifier = $this->phoneNumberUtil->format($identifier, PhoneNumberFormat::E164);
@@ -80,9 +99,14 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         }
     }
 
+    /***
+     * Изменяет хеш пароля при изменении алгоритма в настройках безопасности.
+     * @param PasswordAuthenticatedUserInterface $user
+     * @param string $newHashedPassword
+     * @return void
+     */
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
     {
-        dump($user);
         // установить новый хэшированный пароль в объекте User
         if( is_a($user,User::class) )
             $this->save( $user->setPassword($newHashedPassword),true );
