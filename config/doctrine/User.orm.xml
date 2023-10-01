@@ -21,6 +21,7 @@
             </join-columns>
             <cascade>
                 <cascade-persist/>
+                <cascade-remove/>
             </cascade>
         </one-to-one>
 
