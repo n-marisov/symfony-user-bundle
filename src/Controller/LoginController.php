@@ -45,7 +45,8 @@ class LoginController extends AbstractController
 
         // Форма не отправлена.
         return $this->render("user.login.html.twig",[
-            "loginForm" => $form->createView()
+            "loginForm" => $form->createView(),
+            'error' => $error ?? null
         ]);
     }
 }
