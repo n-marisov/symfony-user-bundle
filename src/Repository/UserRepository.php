@@ -3,7 +3,9 @@
 namespace Maris\Symfony\User\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
+use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumber;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
@@ -79,13 +81,30 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
      * Получает пользователя по номеру телефона.
      * @param string $identifier
      * @return User
+     * @throws NonUniqueResultException
      */
     public function loadUserByIdentifier(string $identifier): User
     {
-        dump( $this->translator->getLocale() );
 
         try {
-            $identifier = $this->phoneNumberUtil->parse($identifier,"ru");
+            $phone = $this->phoneNumberUtil->parse($identifier,$this->translator->getLocale());
+        }catch ( NumberParseException $exception ){
+            throw new UserNotFoundException($this->translator->trans('user.login.exception.parse_number_phone'));
+        }
+
+        $user = $this->createQueryBuilder('u')
+            ->andWhere('u.phone = :phone')
+            ->setParameter('phone',  $this->phoneNumberUtil->format($phone, PhoneNumberFormat::E164) )
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        if(isset($user))
+            return $user;
+
+        throw new UserNotFoundException($this->translator->trans('user.login.exception.not_registered'));
+
+        /*try {
+            $identifier = $this->phoneNumberUtil->parse($identifier,$this->translator->getLocale());
             $identifier = $this->phoneNumberUtil->format($identifier, PhoneNumberFormat::E164);
 
             return $this->createQueryBuilder('u')
@@ -96,7 +115,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
                 throw new UserNotFoundException("Пользователя с таким номер не существует");
         }catch ( \Exception $exception ){
             throw new UserNotFoundException("Ошибка в номере телефона");
-        }
+        }*/
     }
 
     /***
