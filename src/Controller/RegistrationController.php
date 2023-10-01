@@ -33,6 +33,7 @@ class RegistrationController extends AbstractController
 
         if( $form->isSubmitted() && $form->isValid() ){
             if(!empty($user = $form->getData()) && is_a($user,User::class)){
+                dump($user);
                 $user->setPassword($hasher->hashPassword($user,$user->getPassword()));
                 $em->persist($user);
                 $em->flush();
