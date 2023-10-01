@@ -18,3 +18,4 @@ services:
   Maris\Symfony\User\Repository\UserRepository:
     arguments:
       $registry: '@doctrine'
+      $request: '@Symfony\Component\HttpFoundation\Request'
