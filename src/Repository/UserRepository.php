@@ -82,6 +82,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
 
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
     {
+        dump($user);
         // установить новый хэшированный пароль в объекте User
         if( is_a($user,User::class) )
             $this->save( $user->setPassword($newHashedPassword),true );
