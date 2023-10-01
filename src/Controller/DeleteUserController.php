@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
 
 /***
@@ -24,7 +24,7 @@ class DeleteUserController extends AbstractController
         $this->userRepository = $userRepository;
     }
 
-    public function __invoke( TokenStorageInterface $tokenStorage, SessionInterface $session, ?int $id = null ):Response
+    public function __invoke( Security $security, ?int $id = null ):Response
     {
         if($this->isGranted("USER_ADMIN", $this->getUser() )){
             # Удаляем любого пользователя
@@ -32,12 +32,13 @@ class DeleteUserController extends AbstractController
             $this->userRepository->remove( $user,true );
             return new Response();
         }
+
         # Удаляем собственный аккаунт и выходим из системы.
         $this->userRepository->remove($this->getUser(),true);
-        $tokenStorage->removeToken(Security::LAST_USERNAME);
+       // $tokenStorage->removeToken(Security::LAST_USERNAME);
         #$tokenStorage->setToken(Security::LAST_USERNAME,null);
-        $session->invalidate();
+        //$session->invalidate();
 
-        return $this->redirect("/");
+        return $security->logout();
     }
 }
