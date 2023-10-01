@@ -1,5 +1,26 @@
-controllers:
-  type: attribute
-  resource:
-    path: ../src/Controller/
-    namespace: Maris\Symfony\User\Controller
+user_login:
+  path: /login
+  controller: Maris\Symfony\User\Controller\LoginController
+
+user_logout:
+  path: /logout
+  controller: Maris\Symfony\User\Controller\LogoutController
+
+user_account:
+  path: /account
+  controller: Maris\Symfony\User\Controller\AccountController
+
+user_delete:
+  path: /user/delete/{id}
+  controller: Maris\Symfony\User\Controller\DeleteUserController
+  defaults:
+    id: null
+  requirements:
+    id: '\d+'
+
+
+#controllers:
+#  type: attribute
+#  resource:
+#    path: ../src/Controller/
+#    namespace: Maris\Symfony\User\Controller

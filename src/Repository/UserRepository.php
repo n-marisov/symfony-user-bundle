@@ -16,6 +16,7 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
+ * Репозиторий сущности пользователя.
  * @extends ServiceEntityRepository<User>
  *
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -53,11 +54,8 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
             $this->getEntityManager()->flush();
     }
 
-    public function findByPhone( PhoneNumber|string $phone ):?User
+    public function findByPhone( PhoneNumber $phone ):?User
     {
-        if(is_string($phone))
-            $phone = $this->phoneNumberUtil->parse($phone,"ru");
-
         return $this->loadUserByIdentifier(
             $this->phoneNumberUtil->format(
                 $phone, PhoneNumberFormat::E164
@@ -70,7 +68,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
 
         if(!$this->phoneNumberUtil->isPossibleNumber($identifier,"ru"))
             throw new UserNotFoundException("Ошибка в номере телефона");
-       // try {
+        try {
             $identifier = $this->phoneNumberUtil->parse($identifier,"ru");
             $identifier = $this->phoneNumberUtil->format($identifier, PhoneNumberFormat::E164);
 
@@ -79,9 +77,9 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
                 ->setParameter('phone', $identifier )
                 ->getQuery()
                 ->getOneOrNullResult();
-      /*  }catch ( \Exception $exception ){
+        }catch ( \Exception $exception ){
             throw new UserNotFoundException();
-        }*/
+        }
     }
 
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void

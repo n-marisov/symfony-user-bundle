@@ -31,7 +31,6 @@ class RegistrationFormType extends AbstractType
                 'label' => 'user.registration.submit'
             ]);
         $builder->get("person")->addViewTransformer( new PersonViewTransformer() );
-        //$builder->addViewTransformer( new UserViewTransformer() );
     }
 
     public function configureOptions(OptionsResolver $resolver)
