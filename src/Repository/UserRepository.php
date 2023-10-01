@@ -90,7 +90,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         try {
             $phone = $this->phoneNumberUtil->parse( $identifier );
             if( empty($phone) || !$this->phoneNumberUtil->isValidNumber($phone) )
-                $this->phoneNumberUtil->parse( $identifier,$this->translator->getLocale() );
+                $phone = $this->phoneNumberUtil->parse( $identifier,$this->translator->getLocale() );
         }catch ( NumberParseException $exception ){
             $message = $this->translator->trans('user.login.exception.parse_number_phone');
             /*$message .= match ( $exception->getErrorType() ){
