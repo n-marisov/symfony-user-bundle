@@ -3,7 +3,7 @@ user_login:
   controller: Maris\Symfony\User\Controller\LoginController
 
 user_registered:
-  path: /login
+  path: /registered
   controller: Maris\Symfony\User\Controller\RegistrationController
 
 user_logout:
