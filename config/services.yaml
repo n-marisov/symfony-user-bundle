@@ -15,7 +15,7 @@ services:
 
   Maris\Symfony\User\Security\LoginAuthenticator: ~ # Аутенфикатор
 
-  Maris\Symfony\User\Repository\UserRepository: ~
-   # arguments:
-    #  $registry: '@doctrine'
-    #  $request: '@Symfony\Component\HttpFoundation\Request'
+  Maris\Symfony\User\Repository\UserRepository:
+    arguments:
+      $registry: '@doctrine'
+      $translator: '@translator'

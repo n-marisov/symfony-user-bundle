@@ -9,11 +9,11 @@ use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
 use Maris\Symfony\User\Entity\User;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Репозиторий сущности пользователя.
@@ -28,12 +28,12 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
 {
     private PhoneNumberUtil $phoneNumberUtil;
 
-    private ?string $defaultRegion;
-    public function __construct( ManagerRegistry $registry, Request $request )
+    private TranslatorInterface $translator;
+    public function __construct( ManagerRegistry $registry, TranslatorInterface $translator )
     {
         parent::__construct( $registry, User::class );
         $this->phoneNumberUtil = PhoneNumberUtil::getInstance();
-        $this->defaultRegion = $request->getDefaultLocale();
+        $this->translator = $translator;
     }
 
     public function save( UserInterface $user, bool $flush = false ):void
@@ -82,7 +82,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
      */
     public function loadUserByIdentifier(string $identifier): User
     {
-        dump($this->defaultRegion);
+        dump( $this->translator->getLocale() );
 
         try {
             $identifier = $this->phoneNumberUtil->parse($identifier,"ru");
