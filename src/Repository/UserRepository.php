@@ -65,9 +65,6 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
 
     public function loadUserByIdentifier(string $identifier): User
     {
-
-        if(!$this->phoneNumberUtil->isPossibleNumber($identifier,"ru"))
-            throw new UserNotFoundException("Ошибка в номере телефона");
         try {
             $identifier = $this->phoneNumberUtil->parse($identifier,"ru");
             $identifier = $this->phoneNumberUtil->format($identifier, PhoneNumberFormat::E164);
@@ -76,9 +73,10 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
                 ->andWhere('u.phone = :phone')
                 ->setParameter('phone', $identifier )
                 ->getQuery()
-                ->getOneOrNullResult();
+                ->getOneOrNullResult() ??
+                throw new UserNotFoundException("Пользователя с таким номер не существует");
         }catch ( \Exception $exception ){
-            throw new UserNotFoundException();
+            throw new UserNotFoundException("Ошибка в номере телефона");
         }
     }
 
