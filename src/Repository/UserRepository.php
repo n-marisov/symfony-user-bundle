@@ -101,7 +101,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
                 NumberParseException::INVALID_COUNTRY_CODE => 'Could not interpret numbers after plus-sign.',
                 default => ''
             };*/
-
+            dump($exception);
             throw new UserNotFoundException( $message );
         }
 
