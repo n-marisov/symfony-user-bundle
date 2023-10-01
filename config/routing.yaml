@@ -6,8 +6,8 @@ user_registered:
   path: /login
   controller: Maris\Symfony\User\Controller\RegistrationController
 
-#user_logout:
-#  path: /logout
+user_logout:
+  path: /logout
 #  controller: Maris\Symfony\User\Controller\LogoutController
 
 user_account:
