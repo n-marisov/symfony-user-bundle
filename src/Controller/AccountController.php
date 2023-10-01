@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Контролер личного кабинета пользователя.
  */
-#[Route(path: '/account', name: 'user_account')]
+//#[Route(path: '/account', name: 'user_account')]
 class AccountController extends AbstractController
 {
     public function __invoke( Request $request ):Response

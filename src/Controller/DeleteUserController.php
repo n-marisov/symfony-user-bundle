@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /***
  * Контролер для удаления пользователя
  */
-#[Route("/user/delete/{id}",methods: ["GET","POST"])]
+//#[Route("/user/delete/{id}",methods: ["GET","POST"])]
 class DeleteUserController extends AbstractController
 {
     private UserRepository $userRepository;
@@ -25,12 +25,12 @@ class DeleteUserController extends AbstractController
     {
         if($this->isGranted("USER_ADMIN", $this->getUser() )){
             # Удаляем любого пользователя
-            $user = $this->userRepository->find($id);
+            $user = isset($id) ? $this->userRepository->find($id) : $this->getUser();
             $this->userRepository->remove( $user,true );
             return new Response();
         }
-        # Удаляем собственный аккаунт.
-        $this->userRepository->remove($this->getUser());
+        # Удаляем собственный аккаунт и выходим из системы.
+        $this->userRepository->remove($this->getUser(),true);
         return $this->redirectToRoute("user_logout");
     }
 }
