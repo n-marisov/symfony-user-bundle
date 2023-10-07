@@ -3,12 +3,13 @@
 namespace Maris\Symfony\User\Form;
 
 use Misd\PhoneNumberBundle\Form\Type\PhoneNumberType;
+use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Форма входа.
@@ -20,10 +21,21 @@ class LoginFormType extends AbstractType
         $builder
             ->add("phone",PhoneNumberType::class,[
                 "default_region"=>"RU",
-                "label" => "user.login.phone"
+                "label" => "user.login.phone",
+                "constraints"=> [
+                    new NotBlank([
+                        "message" => "Поле не может быть пустым !"
+                    ]),
+                    new PhoneNumber()
+                ]
             ])
             ->add("password",PasswordType::class,[
-                "label" => "user.login.password"
+                "label" => "user.login.password",
+                "constraints"=> [
+                    new NotBlank([
+                        "message" => "Вход без пароля недоступен !"
+                    ])
+                ]
             ])
             ->add("submit",SubmitType::class,[
                 "label" => 'user.login.submit'
