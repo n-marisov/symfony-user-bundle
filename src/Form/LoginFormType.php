@@ -22,6 +22,7 @@ class LoginFormType extends AbstractType
             ->add("phone",PhoneNumberType::class,[
                 "default_region"=>"RU",
                 "label" => "user.login.phone",
+                "required" => false,
                 "constraints"=> [
                     new NotBlank([
                         "message" => "Поле не может быть пустым !"
@@ -31,6 +32,7 @@ class LoginFormType extends AbstractType
             ])
             ->add("password",PasswordType::class,[
                 "label" => "user.login.password",
+                "required" => false,
                 "constraints"=> [
                     new NotBlank([
                         "message" => "Вход без пароля недоступен !"
