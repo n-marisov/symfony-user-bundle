@@ -23,7 +23,7 @@
     "twig/twig": "^2.12|^3.0",
     "symfony/translation": "*",
     "odolbeau/phone-number-bundle": "*",
-    "maris/symfony-person-bundle": "1.0.*"
+    "maris/symfony-person-bundle": "*"
   },
   "autoload": {
     "psr-4": {

@@ -3,7 +3,7 @@
 namespace Maris\Symfony\User\Entity;
 
 use libphonenumber\PhoneNumber;
-use Maris\interfaces\Person\Model\PersonAggregateInterface;
+use Maris\interfaces\Person\AggregateNotNull\PersonAggregateNotNullInterface;
 use Maris\interfaces\Person\Model\PersonInterface;
 use Maris\Symfony\Person\Entity\Person;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * Пользователь.
  * В качестве идентификатора используется номер телефона.
  */
-class User implements UserInterface, PersonAggregateInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface, PersonAggregateNotNullInterface, PasswordAuthenticatedUserInterface
 {
 
     private ?int $id = null;
